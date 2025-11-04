@@ -37,21 +37,38 @@ Any security process that works in Python & Linux can be used to secure your dat
 <br>https://pypi.org/project/python-dotenv/
 <br><br>The MariaDB intetgration code assumes you create a .env file at the same location as your .py file.And it sets the variables: <b>DBHost, DBUsername, DBPassword, may have to change port value</b>
 <br>
-## Download MariaDB Integration
-Row64 Integrations can be downloaded from the github project:
-<br>https://github.com/Row64/row64tools/
-<br></b>
 
-The MariaDB integration is in the sub-folder:
-<br>https://github.com/Row64/row64tools/tree/master/src/row64tools
-<br></b>
+## Integration Example Details
 
-Note: The integration .py files are intended to be modified or used as a starting point to fit your specific needs and setup.
-<br></b>
+To test the integration and install MariaDb run TEST_SETUP_MariaDb.py with:
+```
+python LOCAL_MariaDb_Install.py
+```
 
-More help and background information on this database connector can be found at:
-<br>https://mariadb.com/resources/blog/how-to-connect-python-programs-to-mariadb/<br>
+Assumes:
+- run in a Ubuntu 24.04 / 25.04 VM or clean install
+- you ran Setup_pyenv.py (makes a python that can pip install)
 
-If you have any problem or requests, please log them at:
-<br>https://github.com/Row64/row64tools/issues
-<br>
+Process:
+ - will setup a .env folder in /user/row64/r64tools
+ - will install MariaDB with test users
+ - will setup needed pip libraries for MariaDb connector
+ - will setup an example .env file with: login, password, etc
+
+After you have setup mariadb you can test creating a ramdb file with:
+
+```
+python Mariadb.py
+```
+
+This example will create a .ramdb file in:
+```
+/var/www/ramdb/live/RAMDB.Row64/Temp/Test.ramdb
+```
+
+You can install ByteStream Viewer to visualize this file.
+Ubuntu instructions for that are here:
+https://app.row64.com/Help/V3_5/Install_Docs/Streaming/Stream_Install_Ubuntu/#install-bytestream-viewer
+
+
+From here you can modify the .py file to customize the integration to your specific needs.
