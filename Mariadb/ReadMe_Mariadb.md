@@ -42,7 +42,7 @@ Any security process that works in Python & Linux can be used to secure your dat
 
 To test the integration and install MariaDb run TEST_SETUP_MariaDb.py with:
 ```
-python LOCAL_MariaDb_Install.py
+python TEST_SETUP_MariaDb.py
 ```
 
 Assumes:
