@@ -37,21 +37,40 @@ Any security process that works in Python & Linux can be used to secure your dat
 <br>https://pypi.org/project/python-dotenv/
 <br><br>The PostgreSQL intetgration code assumes you create a .env file at the same location as your .py file.And it sets the variables: <b>DBHost, DBUsername, DBPassword</b>
 <br>
-## Download PostgreSQL Integration
-Row64 Integrations can be downloaded from the github project:
-<br>https://github.com/Row64/row64tools/
-<br></b>
 
-The PostgreSQL integration is in the sub-folder:
-<br>https://github.com/Row64/row64tools/tree/master/src/row64tools
-<br></b>
 
-Note: The integration .py files are intended to be modified or used as a starting point to fit your specific needs and setup.
-<br></b>
 
-More help and background information on this database connector can be found at:
-<br>https://www.postgresqltutorial.com/postgresql-python/connect/<br>
+## Integration Example Details
 
-If you have any problem or requests, please log them at:
-<br>https://github.com/Row64/row64tools/issues
-<br>
+To test the integration and install MySQL run TEST_SETUP_PostgreSQL.py with:
+```
+python TEST_SETUP_PostgreSQL.py
+```
+
+Assumes:
+- run in a Ubuntu 24.04 / 25.04 VM or clean install
+- you ran Setup_pyenv.py (makes a python that can pip install)
+
+Process:
+ - will setup a .env folder in /user/row64/r64tools
+ - will install PostgreSQL with test users
+ - will setup needed pip libraries for PostgreSQL connector
+ - will setup an example .env file with: login, password, etc
+
+After you have setup PostgreSQL you can test creating a ramdb file with:
+
+```
+python PostgreSQL.py
+```
+
+This example will create a .ramdb file in:
+```
+/var/www/ramdb/live/RAMDB.Row64/Temp/Test.ramdb
+```
+
+You can install ByteStream Viewer to visualize this file.
+Ubuntu instructions for that are here:
+https://app.row64.com/Help/V3_5/Install_Docs/Streaming/Stream_Install_Ubuntu/#install-bytestream-viewer
+
+
+From here you can modify the .py file to customize the integration to your specific needs.
