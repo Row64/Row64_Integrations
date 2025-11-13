@@ -259,7 +259,7 @@ Another way to test it is just to load it up in Row64 Studio.
 On Windows, Task Scheduler is the production-proven tool for continous update.  Here's a simple example on how to set them up:<br>
 https://www.windowscentral.com/how-create-automated-task-using-task-scheduler-windows-10
 
-<img src="images/SQLServer_Task_Scheduler.png" width="6000">
+<img src="images/SQLServer_Task_Scheduler.png" width="600">
 
 All you need to do is take the integration .py file and set up a cron job to run at your data refresh rate, from every day to every 20 seconds.
 
