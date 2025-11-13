@@ -5,53 +5,261 @@
 Microsoft SQL Server is a free, proprietary and relational database management system from Microsoft.  It is widely used and well known for simple integration into Microsoft technology.  Microsoft SQL Server integrates easily with Row64 by wiring to Row64 RamDb through Python.
 <br>
 ## Integration Overview
-The basic connection process is to use row64tools to push updates from Microsoft SQL Serverto Row64.  An overview is available here:
-<br>https://pypi.org/project/row64tools/
-<br><br>If sub second speeds are required you might want to look at connecting using real-time streaming which is covered under the streaming help:
-<br>https://app.row64.com/Help/V3_5/Install_Docs/Streaming/
-<br>
-## Continuous Update
-Cron jobs are the simple and production proven Linux tool for continous update.  <br>Here's a simple example on how to set them up:<br>https://www.geeksforgeeks.org/linux-unix/how-to-setup-cron-jobs-in-ubuntu/
-<br><br>All you need to do is take the integration .py file and setup a cron jobto run it at your data refresh rate, from every day to every 20 seconds.
-<br><br><img src="images/SQLServer_Cron_Job.png" width="500">
-<br>If your update rate is faster than 60 seconds, be sure to update your row64 config in:
-<br>```/opt/row64server/conf/config.json```
+
+SQL Server integration is primarily on the Windows platform, and as a last step, move the data to Linux for Dashboard Evaluation.
+
+This makes it easier for Windows Server Administrators to work in a familiar manner and simplifies Windows Authentication.
+
+<img src="images/SQLServer_Overview.png" width="650">
+
+An overview on using Python ODBC to gather queries from SQL Server is here: 
+https://learn.microsoft.com/en-us/sql/connect/python/pyodbc/python-sql-driver-pyodbc-quickstart?view=sql-server-ver17&tabs=azure-sql
 
 
-so that "RAMDB_UPDATE" is set to match the update speed.
+The basic connection process is to use row64tools to push updates from Microsoft SQL Server to Row64. An overview is available here:
+https://pypi.org/project/row64tools/
 
-## Install Pip Libraries
-To setup Microsoft SQL Server intetgration, install the following pip libraries:
-<br>
-```
-pip install row64tools
-pip install pandas
-pip install python-dotenv
-pip install pymssql
-```
+An overview of secure file transfer using SCP in Python is described here:
+https://www.tutorialspoint.com/how-to-copy-a-file-to-a-remote-server-in-python-using-scp-or-ssh
+
 
 ## Setup For Security
-Any security process that works in Python & Linux can be used to secure your data credentials.  Our integration code is written to be easily modified to fit your exact needs.  The default example is to use .env files to set Linux environment variables.  An overview of that approach is here:
+This integration example uses .env files to set Linux seperatly from the integration .py files.  An overview of that approach is here:
 <br>https://upsun.com/blog/what-is-env-file/
-<br><br>And the most popular Python library for .env is here:
+
+More details on the most popular Python library for .env is here:
 <br>https://pypi.org/project/python-dotenv/
-<br><br>The Microsoft SQL Server intetgration code assumes you create a .env file at the same location as your .py file.And it sets the variables: <b>DBHost, DBUsername, DBPassword</b>
+
+This integration example assumes a .env file setup in:
+```
+C:\r64tools\db.env
+```
+
+You can modify the location and the python script as needed<br><br>
+
+# Minimal Example Setup 
+
+Here's a simple example of testing this integration.  It includes:
+ - A single Windows PC/Instance with SQL Server installed
+ - A single Ubuntu PC/Instance with Row64 Server installed
+
+ We'll query SQL Server from Python using ODBC drivers, save a .ramdb file and move it over to Ubuntu.
+
+
+## Install Python on Windows 
+
+To start install the latest Python from:<br>
+https://www.python.org/downloads/
+
+<img src="images/Download_Python.png" width="500">
+
 <br>
-## Download Microsoft SQL Server Integration
-Row64 Integrations can be downloaded from the github project:
-<br>https://github.com/Row64/row64tools/
+It can be easier to download and run the python install manager because it installs all the environment variable to run Python from the command line.
+
+## SQL Server Install Wizard 
+
+For a minimal testing setup, just use the install wizard for
+installation.  An overview is here:<br>
+https://learn.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server-from-the-installation-wizard-setup?view=sql-server-ver17
+
+Downloads are here:<br>
+https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+
+Download the "SQL Server 2022 Developer" version for a free testing version.
+
+Run the install, pick "Basic Install" and keep all the default options.
+
+## Create A Test Database 
+
+Now create a simple test database from the command line.<br>
+Open up a Windows Command Prompt and type:
+```
+sqlcmd
+```
+
+You can now enter SQL commands.  To input the command
+you type "go" after each line.  Enter in a simple test:
+```
+CREATE DATABASE Examples;
+go
+USE Examples;
+go
+CREATE TABLE Sales (Date DATETIME, Amount DECIMAL(15,2), Product VARCHAR(50));
+go
+INSERT INTO Sales VALUES ("2025-01-21 13:23:44", 446.57, "Seal SE Robotic Pool Vacuum");
+go
+INSERT INTO Sales VALUES ("2025-01-21 13:23:52", 287.24, "Tikom Robot Vacuum and Mop");
+go
+INSERT INTO Sales VALUES ("2025-01-21 13:24:03", 1376.28, "ECOVACS DEEBOT T20 Omni Robot Vacuum");
+go
+INSERT INTO Sales VALUES ("2025-01-21 13:24:17", 3200.10, "Husqvarna Automower 430XH");
+go
+```
+
+If you want to see the Example database in the command line, type:
+```
+USE Examples;
+go
+SELECT * FROM Sales; 
+go
+```
+<img src="images/SQLServer_CMD_Select.png" width="600">
+
+## Setup Python Dependencies 
+
+Next let's setup all the python pip libraries needed for the integration.  In the Command Prompt type in:
+```
+python -m pip install row64tools
+python -m pip install pandas
+python -m pip install python-dotenv
+python -m pip install pyodbc
+python -m pip install paramiko
+python -m pip install scp
+```
+
+Next create our .env file in the command prompt and open it in notepad.  We can also use this directory to save .ramdb files.
+Type in the Command Prompt:
+```
+mkdir C:\r64tools
+cd C:\r64tools
+.>db.env 2>NUL
+notepad db.env
+```
+
+In notepad put the example setup data:
+```
+DBHost=localhost
+DBUser=admin
+DBPwd=#8976S#Dfs
+SSH_Host=192.168.1.10
+SSH_Port=22
+SSH_User=row64
+SSH_Pwd=temp7
+```
+
+You can update this later with the exact data for your setup.  It is important to SSH with the row64 user so that you transfer the files with a user that givers row64server access.
+
+NOTE: One your test version is validatated, don't use example or default installation passwords.  
+
+You'll need to download the Row64 integration to SQL Server from Github:
+<br>https://github.com/Row64/Row64_Integrations/tree/master/SQLServer
 <br></b>
 
-The Microsoft SQL Server integration is in the sub-folder:
-<br>https://github.com/Row64/row64tools/tree/master/src/row64tools
-<br></b>
+Copy the test file SQLServer_RamDB.py into this folder:
+```
+C:\r64tools
+```
 
-Note: The integration .py files are intended to be modified or used as a starting point to fit your specific needs and setup.
-<br></b>
+## Open ODBC Data Source Driver 
 
-More help and background information on this database connector can be found at:
-<br>https://docs.microsoft.com/en-us/sql/connect/python/pymssql/step-3-proof-of-concept-connecting-to-sql-using-pymssql?view=sql-server-ver16<br>
+Windows ships with ODBC Data Sources installed, you can open it from the Run menu
 
-If you have any problem or requests, please log them at:
-<br>https://github.com/Row64/row64tools/issues
+
+<img src="images/SQLServer_ODBC_Sources.png" width="450">
+
 <br>
+The detail to watch closely is the name of the ODBC driver in the Drivers tab.  
+<br>You'll use this name in the connection string.<br><br>
+
+<img src="images/SQLServer_ODBC_Driver.png" width="500">
+
+The connection string in the example .py is just connecting on localhost using Windows login authentication:
+
+```
+conn = pyodbc.connect('''Driver=ODBC Driver 17 for SQL Server;Server=localhost;Database=Examples;Trusted_Connection=yes;''')
+```
+
+For more complex setups you'll need to change that string based on your authention, server & login details.
+
+## Call SQL Server From Python 
+
+With the integration installed you can run the SQLServer_RamDB.py from the terminal and see the database print out.
+```
+cd C:\r64tools
+python SQLServer_RamDB.py
+```
+<br>
+<img src="images/SQLServer_Python_ODBC.png" width="650">
+
+## Make Sure File Transfer Is Working 
+When you ran SQLServer_RamDB.py it will attempt to SCP transfer the new .ramdb file to the server specified in: 
+```
+C:\r64tools\db.env
+```
+
+It may have worked if everything was setup right, but make sure you setup that file correctly.
+
+Also on the Ubuntu machine you are copying to, make sure you've installed Row64 Server.  You'll also need to make the loading folder that recieves your .ramdb file.  
+
+For this minimal example make:
+
+```
+mkdir -p /var/www/ramdb/loading/RAMDB.Row64/Temp
+```
+
+Also it's best to set:
+```
+SSH_User=row64
+```
+So that when the file copies in, the service row64server has access to it.
+
+## Setup SSH on Ubuntu 
+
+If you just did the default Ubuntu install, it's possible / likely that you haven't setup SSH on your server or instance.
+
+First (in Ubuntu) check the list of installed UFW profiles with:
+```
+sudo ufw app list
+```
+If OpenSSH is not listed, then install it with:
+```
+sudo apt install openssh-server
+```
+Then, enable SSH connections and the firewall with:
+```
+sudo ufw allow OpenSSH
+sudo ufw enable
+```
+
+ Note: This integration routing a SSH login and password in the example .py file.  The same setup can be modified for a higher tier of security using a SSH key, which is an access credential in the SSH protocol
+
+## Debug Windows to Linux SSH
+
+IF you are making the .ramdb file in:
+```
+C:\r64tools\Test.ramdb 
+```
+but are not able to copy it over to Ubuntu you can debug the port connections with ping (sub in your hostname/IP):
+```
+ping 192.168.1.10
+```
+and also telnet:
+```
+telnet 192.168.1.10 22
+```
+There's some reference discussion on fixing such problems here:<br>
+https://stackoverflow.com/questions/14143198/errno-10060-a-connection-attempt-failed-because-the-connected-party-did-not-pro
+
+
+## Test With ByteStream Viewer
+
+Once you see the file copy over into Ubuntu.  You can install ByteStream Viewer to visualize this file.
+Ubuntu instructions for that are here:
+https://app.row64.com/Help/V3_5/Install_Docs/Streaming/Stream_Install_Ubuntu/#install-bytestream-viewer
+
+You can drag the .ramdb file right into the ByteStream Viewer
+
+<img src="images/SQLServer_ByteStream.png" width="550">
+
+<br>
+Another way to test it is just to load it up in Row64 Studio.
+
+## Continuous Update
+
+On Windows, Task Scheduler is the production-proven tool for continous update.  Here's a simple example on how to set them up:<br>
+https://www.windowscentral.com/how-create-automated-task-using-task-scheduler-windows-10
+
+<img src="images/SQLServer_Task_Scheduler.png" width="6000">
+
+All you need to do is take the integration .py file and set up a cron job to run at your data refresh rate, from every day to every 20 seconds.
+
