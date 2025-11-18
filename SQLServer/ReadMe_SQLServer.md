@@ -250,7 +250,7 @@ For reference, the following article discusses resolving these issues:<br>
 Once you see the file copy over to Ubuntu, you can install ByteStream Viewer to visualize the file.
 
 To install ByteStream Viewer on Ubuntu, you can reference the following documentation:<br>
-[Install ByteStream Viewer on Ubuntu](../../V3_5/Install_Docs/Streaming/Stream_Install_Ubuntu.md/#install-bytestream-viewer)
+[https://app.row64.com/Help/V3_5/Install_Docs/Streaming/Stream_Install_Ubuntu/#install-bytestream-viewer](https://app.row64.com/Help/V3_5/Install_Docs/Streaming/Stream_Install_Ubuntu/#install-bytestream-viewer)
 
 You can drag the .ramdb file right into the ByteStream Viewer
 
