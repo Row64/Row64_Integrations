@@ -140,8 +140,7 @@ SSH_Pwd=temp7
 
 You can update this later with the exact data for your setup.  It is important to use SSH with the row64 user so that you transfer the files with a user that has row64server access.
 
-!!! note
-    Once your test version is validated, don't use example or default installation passwords.  
+NOTE: Once your test version is validated, don't use example or default installation passwords.  
 
 You'll need to download the Row64 integration to SQL Server from Github:<br>
 [https://github.com/Row64/Row64_Integrations/tree/master/SQLServer](https://github.com/Row64/Row64_Integrations/tree/master/SQLServer)
@@ -224,8 +223,7 @@ sudo ufw allow OpenSSH
 sudo ufw enable
 ```
 
-!!! note
-    This integration routes a SSH login and password in the example .py file.  The setup can be modified for a higher tier of security using a SSH key, which is an access credential in the SSH protocol
+NOTE: This integration routes a SSH login and password in the example .py file.  The setup can be modified for a higher tier of security using a SSH key, which is an access credential in the SSH protocol
 
 ## Debug Windows to Linux SSH
 
