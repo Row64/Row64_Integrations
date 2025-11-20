@@ -1,5 +1,5 @@
 # Oracle Windows Integration
-<img src="../Images_Oracle_Windows/Oracle_Row64_Windows_Integration.png" width="700">
+<img src="images/Oracle_Row64_Windows_Integration.png" width="700">
 <br>
 
 Oracle is considered to be the most popular enterprise database. It has been available on Windows since 1994, and all of the most powerful and popular Oracle Database features are present on Windows. Oracle for Windows offers the benefit of operating Oracle in a familiar environment, and is fast to deploy for Windows IT experts.
@@ -11,7 +11,7 @@ Oracle is considered to be the most popular enterprise database. It has been ava
 
 This Oracle Database integration is established in Windows, and for data visualization, it transfers a .ramdb file to Ubuntu to serve dashboards. This strategy simplifies security and administration for Oracle Server professionals.
 
-<img src="../Images_Oracle_Windows/Oracle_Row64_Win_Process.png" width="650">
+<img src="images/Oracle_Row64_Win_Process.png" width="650">
 <br>
 
 The basic connection process involves using row64tools to push updates from an Oracle Database to Row64. An overview is available here:<br>
@@ -40,7 +40,7 @@ Download the current version of Oracle Database Express Edition for Windows:<br>
 [https://www.oracle.com/database/technologies/xe-downloads.html](https://www.oracle.com/database/technologies/xe-downloads.html)
 
 
-<img src="../Images_Oracle_Windows/Oracle_Windows_Dowload.png" width="500">
+<img src="images/Oracle_Windows_Dowload.png" width="500">
 <br>
 
 Right-click `OracleXE213_Win64.zip` and select "Extract All." Extract the files into a temporary location of your choosing.
@@ -50,13 +50,13 @@ In the extracted folder, double-click `setup.exe`.
 Accept the default settings.  When you are prompted to create a database password, use: `temp7`
 
 
-<img src="../Images_Oracle_Windows/Oracle_Win_Set_Pwd.png" width="500">
+<img src="images/Oracle_Win_Set_Pwd.png" width="500">
 
 This is a simple test password to match the Python in this example
 
 Continue to accept the default settings and complete the install.
 
-<img src="../Images_Oracle_Windows/Oracle_Win_Install_Success.png" width="500">
+<img src="images/Oracle_Win_Install_Success.png" width="500">
 
 When the installation completes, it will provide the information needed to connect to the default pluggable database.
 
@@ -69,7 +69,7 @@ When the installation completes, it will provide the information needed to conne
 
 It is not possible to connect to the database as SYSTEM to create the tables that are accessed from Python. This approach is insecure, so Oracle prevents it. Instead, you will first connect to the example pluggable database (XEPDB1) as `sys as sysdba`. From there, you will create a new user, `radmin`, which will be the account used to create and query tables from Python.
 
-<img src="../Images_Oracle_Windows/Oracle_Wind_Pluggable_Database.png" width="700">
+<img src="images/Oracle_Wind_Pluggable_Database.png" width="700">
 <br>
 
 To get started, open the command prompt to begin creating a new default Pluggable Database (PDB). In the command prompt, type:
@@ -80,7 +80,7 @@ sqlplus sys/temp7@XE as sysdba
 
 It should log you into an Oracle SQL command prompt:
 
-<img src="../Images_Oracle_Windows/Oracle_Win_Prompt.png" width="600">
+<img src="images/Oracle_Win_Prompt.png" width="600">
 <br>
 
 ## Create an Oracle User
@@ -164,7 +164,7 @@ Query some sample data from the table:
 SELECT tdate,amount,product FROM sales;
 ```
 
-<img src="../Images_Oracle_Windows/Oracle_Win_Log_Data.png" width="650">
+<img src="images/Oracle_Win_Log_Data.png" width="650">
 
 Exit the SQL Prompt:
 
@@ -179,7 +179,7 @@ EXIT
 To start, install the latest version of Python from:<br>
 [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
-<img src="../Images_Oracle_Windows/Download_Python.png" width="500">
+<img src="images/Download_Python.png" width="500">
 
 Downloading the Python install manager is an easy approach because it installs the environment variables to run Python from the command line.
 
@@ -262,7 +262,7 @@ python Oracle_Windows_RamDB.py
 
 The terminal should print the example table and display the status of the transfer.
 
-<img src="../Images_Oracle_Windows/Oracle_Win_Integration_Working.png" width="600">
+<img src="images/Oracle_Win_Integration_Working.png" width="600">
 
 ## Verify File Transfer is Working 
 
@@ -342,7 +342,7 @@ To install ByteStream Viewer on Ubuntu, you can reference the following document
 
 You can drag the .ramdb file right into the ByteStream Viewer
 
-<img src="../Images_Oracle_Windows/Oracle_Win_ByteStream.png" width="550">
+<img src="images/Oracle_Win_ByteStream.png" width="550">
 
 <br>
 Alternatively, you can simply open the file in Row64 Studio.
@@ -352,7 +352,7 @@ Alternatively, you can simply open the file in Row64 Studio.
 On Windows, Task Scheduler is the production-proven tool for establishing continuous updates.  Here's a simple example on how to set it up:<br>
 [https://www.windowscentral.com/how-create-automated-task-using-task-scheduler-windows-10](https://www.windowscentral.com/how-create-automated-task-using-task-scheduler-windows-10)
 
-<img src="../Images_Oracle_Windows/Oracle_Win_Task_Scheduler.png" width="600">
+<img src="images/Oracle_Win_Task_Scheduler.png" width="600">
 
 You simply need to take the integration .py file and set up a cron job to run at your data refresh rate, which can range from every 20 seconds to every day.
 
