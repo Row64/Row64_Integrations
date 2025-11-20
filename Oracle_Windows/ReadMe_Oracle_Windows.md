@@ -4,8 +4,7 @@
 
 Oracle is considered to be the most popular enterprise database. It has been available on Windows since 1994, and all of the most powerful and popular Oracle Database features are present on Windows. Oracle for Windows offers the benefit of operating Oracle in a familiar environment, and is fast to deploy for Windows IT experts.
 
-!!! note
-    This page is dedicated to the Windows integration. For the Linux integration, please see the [Oracle](Oracle.md) page.
+NOTE: This page is dedicated to the Windows integration. For the Linux integration, please see the [Oracle](https://app.row64.com/Help/Integrations_Docs/Integration_List/Oracle/) page.
 
 ## Integration Overview
 
@@ -27,8 +26,7 @@ This tutorial shows how to complete a quick test with the Oracle Database XE ver
 
 ## Install Oracle Linux For Windows
 
-!!! note
-    Make sure you are logged into Windows as a user with administrative privileges.
+NOTE: Make sure you are logged into Windows as a user with administrative privileges.
 
 If any of the following Oracle environment variables are set, delete them:
 
@@ -60,9 +58,8 @@ Continue to accept the default settings and complete the install.
 
 When the installation completes, it will provide the information needed to connect to the default pluggable database.
 
-!!! info
-    If you experience issues with the installation, the following article provides an in-depth overview of the installation process. This article is from Oracle's official documentation site:<br>
-    [https://docs.oracle.com/en/database/oracle/oracle-database/21/xeinw/installing-oracle-database-xe.html](https://docs.oracle.com/en/database/oracle/oracle-database/21/xeinw/installing-oracle-database-xe.html)
+NOTE: If you experience issues with the installation, the following article provides an in-depth overview of the installation process. This article is from Oracle's official documentation site:<br>
+[https://docs.oracle.com/en/database/oracle/oracle-database/21/xeinw/installing-oracle-database-xe.html](https://docs.oracle.com/en/database/oracle/oracle-database/21/xeinw/installing-oracle-database-xe.html)
 
 
 ## Create a Pluggable Database User
@@ -87,8 +84,7 @@ It should log you into an Oracle SQL command prompt:
 
 Next, create the C##radmin7 user to access from Python. This user should use the temporary password: `temp7`
 
-!!! note
-    This is a common user, so the name is prefixed with `C##`. A common user is a user that is known to the root and all pluggable databases. Using a common user will suffice for this test setup.
+NOTE: This is a common user, so the name is prefixed with `C##`. A common user is a user that is known to the root and all pluggable databases. Using a common user will suffice for this test setup.
 
 In the command prompt, type:
 
@@ -311,8 +307,7 @@ sudo ufw allow OpenSSH
 sudo ufw enable
 ```
 
-!!! note
-    This integration routes a SSH login and password in the example .py file.  The setup can be modified for a higher tier of security using a SSH key, which is an access credential in the SSH protocol
+NOTE: This integration routes a SSH login and password in the example .py file.  The setup can be modified for a higher tier of security using a SSH key, which is an access credential in the SSH protocol
 
 ## Debug Windows to Linux SSH
 
@@ -330,8 +325,6 @@ telnet 192.168.1.10 22
 
 For reference, the following article discusses resolving these issues:<br>
 [https://stackoverflow.com/questions/14143198/errno-10060-a-connection-attempt-failed-because-the-connected-party-did-not-pro](https://stackoverflow.com/questions/14143198/errno-10060-a-connection-attempt-failed-because-the-connected-party-did-not-pro)
-
-<!-- PAUSED HERE -->
 
 ## Test with ByteStream Viewer
 
