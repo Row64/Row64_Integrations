@@ -1,44 +1,51 @@
 import pandas as pd
 import os
 import sys
-
 from row64tools import ramdb
 from dotenv import load_dotenv
 from pymongo import MongoClient
+import paramiko
+from scp import SCPClient
 
-def _connect_mongo(host, port, username, password, db):
-    """ A util for making a connection to mongo """
+def MongoDB():
 
-    if username and password:
-        mongo_uri = 'mongodb://%s:%s@%s:%s/%s' % (username, password, host, port, db)
-        conn = MongoClient(mongo_uri)
-    else:
-        conn = MongoClient(host, port)
-    
-    return conn[db]
-
-
-def MongoDB(inDb, inTablename):
-
-	# Please set the following environment variables: DBHost, DBUsername, DBPort, DBPwd to proper values.
-	load_dotenv()
+	load_dotenv("/home/row64/r64tools/db.env")
 	
-	# Help page, https://www.mongodb.com/docs/languages/python/pymongo-driver/current/get-started/
+	client = MongoClient("mongodb://localhost:27017/")
 
-	db = _connect_mongo(host=os.environ["DBHost"], port=os.environ["DBPort"], username=os.environ["DBUsername"], password=environ["DBPwd"], db=inDb)
+	database = client["example"]
+	col = database["sales"]
+	df = pd.DataFrame(list(col.find({}, {'_id': False})))
 
-	# df = pd.read_sql_query("SELECT * FROM " + inTablename, conn)
 
-	query={}
-	cursor = db[collection].find(query)
-	df = pd.DataFrame(list(cursor))
-	
-	# example showing setting a column to datetime
-	# df["date column"] = pd.to_datetime(df["date column"])
-	
+	df["Date"] = pd.to_datetime(df["Date"])
+
+	print(df)
+	print('os.getenv("SSH_Host"): ', os.getenv("SSH_Host"))
+	print('os.getenv("SSH_User"): ', os.getenv("SSH_User"))
+	print('os.getenv("SSH_Pwd"): ', os.getenv("SSH_Pwd"))
+
 	# more details on saving to .ramdb: https://pypi.org/project/row64tools/
-	ramdb.save_from_df(df, "/var/www/ramdb/live/RAMDB.Row64/Temp/Test.ramdb")
-
-db = "Examples"
-tableName = "myTable"
-MongoDB( db. tableName)
+	if os.path.isdir("/home/row64/r64tools/"):
+		local_path = "/home/row64/r64tools/Test.ramdb"
+		ramdb.save_from_df(df, local_path)
+		remote_path = '/var/www/ramdb/loading/RAMDB.Row64/Temp/Test.ramdb'
+		ssh = paramiko.SSHClient()
+		ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+		try:
+			print("\n----- transfering .ramdb file -----")
+			hostname = os.getenv("SSH_Host")
+			port = os.getenv("SSH_Port")
+			username = os.getenv("SSH_User")
+			password = os.getenv("SSH_Pwd")
+			ssh.connect(hostname=hostname, port=port, username=username, password=password)
+			with SCPClient(ssh.get_transport()) as scp:
+				scp.put(local_path, remote_path)
+				print(".ramdb transfered successfully")
+		except Exception as e:
+			print(f"Error: {e}")
+		finally:
+			ssh.close()
+	else:
+		print("Folder /home/row64/r64tools/ not found, skipping save .ramdb")
+MongoDB()
