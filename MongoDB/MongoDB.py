@@ -20,10 +20,7 @@ def MongoDB():
 
 	df["Date"] = pd.to_datetime(df["Date"])
 
-	print(df)
-	print('os.getenv("SSH_Host"): ', os.getenv("SSH_Host"))
-	print('os.getenv("SSH_User"): ', os.getenv("SSH_User"))
-	print('os.getenv("SSH_Pwd"): ', os.getenv("SSH_Pwd"))
+	print(df) # temporary, remove when using in production
 
 	# more details on saving to .ramdb: https://pypi.org/project/row64tools/
 	if os.path.isdir("/home/row64/r64tools/"):
