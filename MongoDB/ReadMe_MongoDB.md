@@ -254,7 +254,7 @@ At the bottom of the output, you should see a message that your .ramdb file tran
 When copying the file from the database server to the Dashboard Server, you will need a directory to receive the file. For example, on the receiving server or instance, if you copy the file into the following folder:
 
 ```
-/var/www/ramdb/live/RAMDB.Row64/Temp/Test.ramdb
+/var/www/ramdb/loading/RAMDB.Row64/Temp/Test.ramdb
 ```
 
 Ensure that:

@@ -29,14 +29,14 @@ def Setup_Env_Folder():
 
     # if row64server is not installed, or if the live structure is not in place - make the folders
     if not os.path.exists("/var/www/ramdb/"):
-        sp.call(["sudo", 'bash', '-c', "mkdir -p /var/www/ramdb/live/RAMDB.Row64/Temp"])
+        sp.call(["sudo", 'bash', '-c', "mkdir -p /var/www/ramdb/loading/RAMDB.Row64/Temp"])
         sp.call(["sudo", 'bash', '-c', "chown -R row64:row64 /var/www/ramdb/"])
-    elif not os.path.exists("/var/www/ramdb/live/RAMDB.Row64/"):
-        sp.call(["sudo", 'bash', '-c', "mkdir -p /var/www/ramdb/live/RAMDB.Row64/Temp"])
-        sp.call(["sudo", 'bash', '-c', "chown -R row64:row64 /var/www/ramdb/live/RAMDB.Row64"])
-    elif not os.path.exists("/var/www/ramdb/live/RAMDB.Row64/Temp"):  
-        sp.call(["sudo", 'bash', '-c', "mkdir -p /var/www/ramdb/live/RAMDB.Row64/Temp"])
-        sp.call(["sudo", 'bash', '-c', "chown -R row64:row64 /var/www/ramdb/live/RAMDB.Row64/Temp"])
+    elif not os.path.exists("/var/www/ramdb/loading/RAMDB.Row64/"):
+        sp.call(["sudo", 'bash', '-c', "mkdir -p /var/www/ramdb/loading/RAMDB.Row64/Temp"])
+        sp.call(["sudo", 'bash', '-c', "chown -R row64:row64 /var/www/ramdb/loading/RAMDB.Row64"])
+    elif not os.path.exists("/var/www/ramdb/loading/RAMDB.Row64/Temp"):  
+        sp.call(["sudo", 'bash', '-c', "mkdir -p /var/www/ramdb/loading/RAMDB.Row64/Temp"])
+        sp.call(["sudo", 'bash', '-c', "chown -R row64:row64 /var/www/ramdb/loading/RAMDB.Row64/Temp"])
 
     
 def MariaDB_Install():

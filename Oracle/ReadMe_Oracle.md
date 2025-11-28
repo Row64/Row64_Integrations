@@ -443,7 +443,7 @@ Ensure that, when you transfer the file from Oracle Linux to Ubuntu, you make th
 folder:
 
 ```
-/var/www/ramdb/live/RAMDB.Row64/Temp/Test.ramdb
+/var/www/ramdb/loading/RAMDB.Row64/Temp/Test.ramdb
 ```
 
 Make sure:

@@ -63,7 +63,7 @@ python Mariadb.py
 
 This example will create a .ramdb file in:
 ```
-/var/www/ramdb/live/RAMDB.Row64/Temp/Test.ramdb
+/var/www/ramdb/loading/RAMDB.Row64/Temp/Test.ramdb
 ```
 
 You can install ByteStream Viewer to visualize this file.

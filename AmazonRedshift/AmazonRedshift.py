@@ -31,7 +31,7 @@ def AmazonRedshift(inDbName, inTableName):
 	# df["date column"] = pd.to_datetime(df["date column"])
 
 	# more details on saving to .ramdb: https://pypi.org/project/row64tools/
-	ramdb.save_from_df(df, "/var/www/ramdb/live/RAMDB.Row64/Temp/Test.ramdb")
+	ramdb.save_from_df(df, "/var/www/ramdb/loading/RAMDB.Row64/Temp/Test.ramdb")
 
 dbName = "myDb"
 tableName = "myTable"
