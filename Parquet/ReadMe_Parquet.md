@@ -1,4 +1,4 @@
-# MongoDB Integration
+# Parquet File Integration
 
 <img src="images/Parquet_Integration.png" width="500">
 
