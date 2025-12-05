@@ -1,6 +1,6 @@
 # Apache Parquet File Integration
 
-<img src="../Images_Parquet/Parquet_Integration.png" width="500">
+<img src="images/Parquet_Integration.png" width="500">
 
 Apache Parquet is an open-source data file format for columnar data. Parquet is an industry standard, and is widely used in cloud data warehouses and data lakes. It is also supported by many programming languages. Apache Parquet integrates easily with Row64 by wiring to Row64 RamDb through Python.
 
@@ -66,7 +66,7 @@ python Parquet_To_Ramdb.py
 
 If everything worked correctly, your terminal should output some lines of sample data:
 
-<img src="../Images_Parquet/Parquet_Python.png" width="650">
+<img src="images/Parquet_Python.png" width="650">
 
 
 ## Test with ByteStream Viewer
@@ -79,7 +79,7 @@ To install ByteStream Viewer on Ubuntu, you can reference the following document
 
 You can drag and drop the `.ramdb` file into ByteStream Viewer to open it quickly.
 
-<img src="../Images_Parquet/Parquet_ByteStream.png" width="550">
+<img src="images/Parquet_ByteStream.png" width="550">
 
 
 ## Set Up a Loading Folder
