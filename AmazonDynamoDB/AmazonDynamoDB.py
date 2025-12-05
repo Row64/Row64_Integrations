@@ -3,25 +3,26 @@ import os
 
 from row64tools import ramdb
 from dotenv import load_dotenv
-from dynamo_pandas import put_df, get_df, keys
+import boto3
 
-def AmazonDynamoDB(inDbName, inTableName):
-	
-	# for this example we just show loading a dynamodb s3 file saved locally
-	df = pd.DataFrame()
-	with open(r'/home/row64/local-dynamodb-file') as s3:
-	    for item in s3:
-	        newdf = pd.read_json(item)
-	        newdf.fillna(method='ffill', inplace=True)
-	        newdf = newdf.loc['s']
-	        df = df.append(newdf, ignore_index=True)
-	
-	# example showing setting a column to datetime
-	# df["date column"] = pd.to_datetime(df["date column"])
+def AmazonDynamoDB():
 
+	print("---------- Before Connect -----------")
+	ddb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
+	print("---------- Connect Success -----------")
+
+	table = ddb.Table('Sales')
+	response = table.scan()
+	result = response['Items']
+	while 'LastEvaluatedKey' in response:
+		response=table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+		result.extend(response['Items'])
+	df = pd.DataFrame(result)
+	
+	df["date"] = pd.to_datetime(df["date"])
+	print(df) # temporary, remove when using in production
+	
 	# more details on saving to .ramdb: https://pypi.org/project/row64tools/
-	ramdb.save_from_df(df, "/var/www/ramdb/live/RAMDB.Row64/Temp/Test.ramdb")
+	ramdb.save_from_df(df, "/var/www/ramdb/loading/RAMDB.Row64/Temp/Test.ramdb")
 
-dbName = "myDb"
-tableName = "myTable"
-AmazonDynamoDB( dbName, tableName )
+AmazonDynamoDB()

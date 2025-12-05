@@ -2,104 +2,107 @@
 
 <img src="images/Csv_Integration.png" width="500">
 
-A CSV file is the simplest, most popular and easiest to debug file format for data.  It is a text file of comma seperated values and is found in almost all data platforms and tools.  CSV files integrate easily with Row64 by wiring to Row64 RamDb through Python.
+The CSV format is the simplest and most popular file format for debugging data. CSV stands for "comma-separated values," and a CSV file is simply a text file that contains rows (records) of plain-text data, with each column delimited by a character such as a comma, a semicolon, or a space. CSV files are found in almost all data platforms and tools. CSV files integrate easily with Row64 by wiring to Row64 RamDb through Python.
+
 
 ## Integration Overview
 
-This is just a simple overview primarily using Python Pandas.
+This integration primarily uses Python Pandas. This walkthrough will guide you in establishing an integration with CSV files, which will involve:
 
-We're going to load an example .csv file, and save it as a .ramdb file.
+* Running the integration in Ubuntu 25.01
 
-We'll run the integration in Ubuntu 25.01. 
-The general idea of the setup is:
-   - copy over .csv files to Row64 Server
-   - convert them into .ramdb and then load the updates into dashboards
+* Creating and transferring `.csv` files to Row64 Server
 
+* Converting the `.csv` files to `.ramdb` files
+
+* Loading the updates to dashboards
 
 
 ## Download the Integration
 
-You can download the Row64 Integration for Parquet in the following
-github:<br>
-https://github.com/Row64/Row64_Integrations
+Download the Row64 integration for CSV from GitHub:
 
-The full integration is found in the 'Csv' folder
+* [https://github.com/Row64/Row64_Integrations](https://github.com/Row64/Row64_Integrations)
 
-## Setup A Non-OS Python
-
-For Python work in Ubuntu that requires a pip install, it's best practice to install a second Python.  This will avoid pip dependencies corrupting Ubuntu system calls.
-
-The simplest way to do this is to install pyenv. More details here:<br> https://realpython.com/intro-to-pyenv/
+The full integration is found in the "Csv" folder.
 
 
-To simplify setup, we've automated pyenv installation.  From the root of the integration, grab Setup_pyenv.py and run it with:
+## Set Up a Non-OS Python
+
+For working with Python in Ubuntu, when you need to perform pip installations, it's best practice to install a second instance of Python. This will prevent pip dependencies from corrupting Ubuntu system calls.
+
+The simplest way to accomplish this is to install `pyenv`. For further reading, the following article explains managing multiple instances of Python with `pyenv`:
+
+* [https://realpython.com/intro-to-pyenv/](https://realpython.com/intro-to-pyenv/)
+
+To simplify the setup, we've automated the `pyenv` installation.  From the root of the integration in [GitHub](https://github.com/Row64/Row64_Integrations/tree/master), download the `Setup_pyenv.py` and run it with:
+
 ```
 python3 Setup_pyenv.py
 ```
 
-After pyenv is setup, then you can work with the integration specific folder to install the needed pip libraries and python integration, calling 'python' instead of the OS-level 'python3'
+Once `pyenv` is set up, you can work with the folder specific to the integration to install the needed pip libraries and Python integration, calling `python` instead of the OS-level `python3`. To do this, proceed to the next section.
+
 
 ## Install Python Pip Libraries
 
-Next install the python libraries used to connect to the database and transfer a .ramdb file.  In the terminal enter:
+Install the Python libraries needed to connect to the database and transfer a `.ramdb` file. In a terminal, enter the following command:
 
 ```
 pip install row64tools
 ```
 
+
 ## Run the Integration
 
-Run the python integration you downloaded early in the terminal with:
+In a previous step, you should have downloaded the Python integration from GitHub. Now that the needed Python libraries are installed, you can run the integration. Use the following command:
 
 ```
 python Csv_To_Ramdb.py
 ```
 
-If everything worked it should look like this:
+If everything worked correctly, your terminal should output some lines of sample data:
 
 <img src="images/Csv_Python_Output.png" width="650">
 
 
 ## Test with ByteStream Viewer
 
-Once you see the file copy over to Ubuntu, you can install ByteStream Viewer to visualize the data.
+Once the file is successfully copying over to Ubuntu, you can use ByteStream Viewer to visualize the data.
 
-To install ByteStream Viewer on Ubuntu, you can reference the following documentation:<br>
-[Install ByteStream Viewer on Ubuntu](../../V3_5/Install_Docs/Streaming/Stream_Install_Ubuntu.md/#install-bytestream-viewer)
+To install ByteStream Viewer on Ubuntu, you can reference the following documentation. After installing and testing ByteStream Viewer, return to this page.
 
-You can drag the .ramdb file right into the ByteStream Viewer
+* [Install ByteStream Viewer on Ubuntu](../../V3_5/Install_Docs/Streaming/Stream_Install_Ubuntu.md/#install-bytestream-viewer)
+
+You can drag and drop the `.ramdb` file into ByteStream Viewer to open it quickly.
 
 <img src="images/Csv_ByteStream.png" width="550">
 
 
-## Setup A Loading Folder
+## Set Up a Loading Folder
 
-The final step is to create a loading folder and move
-the .ramdb file into there.  This acts as a drop folder where 
-the server will grab the file and update all future dashboards.
+The final step is to create a loading folder and to transfer the `.ramdb` file to it. The loading folder acts as a drop folder where the server will retrive the file and update all future dashboards.
 
-More details are available here:
-https://pypi.org/project/row64tools/
+Creating a live loading folder involves *row64tools*. For further reading, more information on row64tools is available at the following article. Please note that you already installed row64tools in a previous step, so there is no need to install it again.
 
+* [https://pypi.org/project/row64tools/](https://pypi.org/project/row64tools/)
 
-All you need to do is make a directory for loading.  Make sure you do 
-this as the row64 user so Row64 has access to the file:
+Create a directory for loading. Create this folder as the `row64` user so that Row64 has proper access to it:
 
 ```
 mkdir -R /var/www/ramdb/loading/RAMDB.Row64/Temp
 ```
 
-Next modify the integration .py file so you are writting into
-that folder.  Change the line:
+Next, modify the integration .py file so that you write into the new loading folder. Open the integration .py file in a text editor and locate the following line:
 
 ```
 ramdbPath = 'Test.ramdb'
 ```
 
-to:
+Change the value of `ramdbPath` to:
 
 ```
 ramdbPath = '/var/www/ramdb/loading/RAMDB.Row64/Temp/Test.ramdb'
 ```
 
-And it will automatically move updates into the Row64 server.  Modify the folder name and the .ramdb file name to load different dataframes into different folders.
+Save the file. Now, it will automatically push updates to Row64 Server. From here, you can modify the name of the folder and the `.ramdb` file to load different dataframes into different folders, if desired.
